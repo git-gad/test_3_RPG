@@ -4,6 +4,8 @@ from core import goblin, orc, player_modul
 from random import randint
 
 class Game:
+    status = True
+    
     def start(self):
         choice = self.show_menu()
         if choice == 'exit':
@@ -24,17 +26,13 @@ class Game:
         else:
             self.monster = orc.Orc('worker')
     
-    def battle(self):
+    def difine_first_attacker(self):
         player_bonus_speed = self.roll_dice(6)
         monster_bonus_speed = self.roll_dice(6)
         if self.monster.speed + monster_bonus_speed < self.player.speed + player_bonus_speed:
             self.attacker, self.victim = self.player, self.monster
         else:
             self.attacker, self.victim = self.monster, self.player
-        while self.player.hp > 0 and self.monster.hp > 0:    
-            self.attack() 
-            self.attacker, self.victim = self.victim, self.attacker
-        print(f'{self.victim.name} won')
         
     def attack(self):
         self.hit_chance = self.attacker.speed + self.roll_dice(20)
@@ -43,19 +41,22 @@ class Game:
             if hasattr(self.attacker, 'weapon'):
                 self.damage *= self.attacker.weapon.multiplier
             self.victim.hp -= self.damage
+            print(f'{self.attacker.name} hit {self.victim.name} for {self.damage} damage')
+        else:
+            print(f'{self.attacker.name} missed')
+            
+    def update_status(self):
+        if self.player.hp < 0 or self.monster.hp < 0:
+            Game.status = False
+            print(f'{self.attacker.name} won')
+        elif self.victim.type == 'goblin' and self.victim.hp < (self.victim.max_hp // 2):
+            if randint(1, 100) < 30:
+                Game.status = False
+                print(f'{self.monster.name} ran away')
     
     def roll_dice(self, sides):
         return randint(1, sides)
     
-# g = Game()
-
-# g.create_player()
-
-# g.choose_random_monster()
-
-# g.battle()
-
-# print(g.player.hp, g.monster.hp)
 
 
 

@@ -12,9 +12,13 @@ g.create_player()
 
 g.choose_random_monster()
 
-g.battle()
+g.difine_first_attacker()
 
-# print(g.player.hp, g.monster.hp)
+while g.status:
+    g.attack()
+    g.update_status()
+    g.attacker, g.victim = g.victim, g.attacker
+
 
     
     

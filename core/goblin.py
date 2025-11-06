@@ -4,7 +4,7 @@ from core.weapons import weapons
 class Goblin:
     def __init__(self, name):
         self.name = name
-        self.hp = 20
+        self.hp = self.max_hp = 20
         self.type = 'goblin'
         self.speed = randint(5, 10)
         self.power = randint(5, 10)

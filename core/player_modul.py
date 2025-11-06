@@ -6,6 +6,7 @@ class Player:
     def __init__(self, name):
         self.name = name
         self.hp = 50
+        self.type = 'human'
         self.speed = randint(5, 10)
         self.power = randint(5, 10)
         self.armor_rating = randint(5, 15)
